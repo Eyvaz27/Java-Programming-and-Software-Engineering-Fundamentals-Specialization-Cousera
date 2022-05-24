@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Canvas Page</title>
+        <link rel="stylesheet" href="page.css">
+        <script src="page.js"></script>
+    </head>
+    <body>
+        <h1>Using a Canvas Methods</h1>
+        <canvas id="cnvs1">
+        </canvas>
+        <P>
+            <input type="button" value="make lime" onclick="dolime()">
+            <input type="button" value="make yellow" onclick="doyellow()">
+            <input type="color" value="#001A57" onchange="docolor()" id="clr">
+        </P>
+        <P><input type="range" min="10" max="100" value="10" id="sldr" oninput="doscale()"></P>
+    </body>
+</html>

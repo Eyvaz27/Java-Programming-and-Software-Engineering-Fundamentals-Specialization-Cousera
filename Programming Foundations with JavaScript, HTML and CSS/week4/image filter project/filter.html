@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Image Filters Page</title>
+        <link rel="stylesheet" href="filter.css">
+        <script src="filter.js"></script>
+        <script src="SimpleImage.js"></script>
+    </head>
+    <body>
+        <h1>Image Filter Web Page</h1>
+        <canvas id="display"></canvas>
+        <h2>Load Image File</h2>
+        <input type="file" multiple="false" accept="image/*" id="img_original" onchange="uploadImage()">
+        <h2>Choose Filter Element</h2>
+        <input type="button" id="grayscale" value="GrayScale" onclick="colorGray()">
+        <input type="button" id="red_img" value="Red Filter" onclick="colorRed()">
+        <br><br> 
+        <input type="button" id="reset_img" value="Reset" onclick="colorReset()">
+    </body>
+</html>

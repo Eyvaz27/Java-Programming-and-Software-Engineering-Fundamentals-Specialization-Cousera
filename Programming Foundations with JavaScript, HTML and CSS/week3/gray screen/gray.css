@@ -1,0 +1,39 @@
+canvas {
+    height: 270px;
+    width: 400px;
+    border: 1px solid lightgrey;
+}
+
+input {
+    font-size: 14pt;
+}
+
+h1 {
+    font-family: arial;
+    color: dimgray;
+}
+
+body {
+    font-family: arial;
+    margin: 30px;
+}
+
+.top {
+    vertical-align: top;
+}
+
+.bottom {
+    margin-left: 35%;
+    position: absolute;
+    bottom: 150;
+}
+
+.left {
+    margin-left: 10%;
+    float: left;
+}
+
+.right {
+    margin-right: 10%;
+    float: right;
+}

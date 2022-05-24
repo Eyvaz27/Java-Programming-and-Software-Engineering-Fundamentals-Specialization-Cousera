@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Green Screen Page</title>
+        <link rel="stylesheet" href="green.css">
+        <script src="SimpleImage.js"></script>
+        <script src="green.js"></script>
+    </head>
+    <body>
+        <h1>Green Screen Web Page</h1>
+        <div class="top">
+            <div class="left"><canvas id="foreground"></canvas></div>
+            <div class="right"><canvas id="background"></canvas></div>
+        </div>
+        <div class="bottom">
+            <P>
+                Foreground Image:
+                <input type="file" multiple="false" accept="image/*" id="fgimage" onchange="uploadFG()">
+            </P>
+            <P>
+                Background Image:
+                <input type="file" multiple="false" accept="image/*" id="bgimage" onchange="uploadBG()">
+            </P>
+            <br>
+            <input type="button" id="createcomposite" value="Create Composite" onclick="createComposite()">
+            <input type="button" id="clearcanvases" value="Clear Canvases" onclick="clearCanvases()">
+        </div>
+    </body>
+</html>

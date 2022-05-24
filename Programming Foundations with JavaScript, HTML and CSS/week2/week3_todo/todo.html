@@ -1,0 +1,43 @@
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>ToDo</title>
+    <link rel="stylesheet" href="todo.css">
+    <script src="todo.js"></script>
+</head>
+
+<body>
+    <h1 id="myHeader">TO DO List</h1>
+    <!-- STEPs 1 and 2 below here -->
+    <div id="container" style="width:100%;">                                   
+        <div id="left" style="float:left; width:50%;">
+            <div class="container">
+                <input id="addButton" type="button" value="Add" onclick="addTask()">
+                <input id="input" type="text" placeholder="enter new task ...">
+            </div>
+            <hr>
+            <ul id="tasks">
+                <!--                
+                <li>
+                    <input id="ok" type="button" class="done" onclick="markDone(this.parentNode)" value="&#x2713;" />
+                    <input id="not" type="button" class="remove" onclick="remove(this.parentNode)" value="&#x2715;" />
+                </li>
+                -->
+            </ul>
+            <hr>
+            <!-- STEPs 8 and 9 below here -->
+            <div id="divabout">
+                <div id="divinput">
+                    <input id="about" type="button" value="About" onclick="doAbout()">
+                    <input id="clear" type="button" value="Clear" onclick="clearAbout()">
+                </div>
+                <div id="divtext"></div>
+            </div>
+            <!-- STEP 13 below here →  -->
+        </div>                     
+        <div id="right" style="float:right; width:50%;"></div>                   
+      </div>   
+</body>
+
+</html>

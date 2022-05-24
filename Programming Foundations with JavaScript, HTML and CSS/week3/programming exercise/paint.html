@@ -1,0 +1,30 @@
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Interactive Paint Page</title>
+    <link rel="stylesheet" href="paint.css">
+</head>
+
+<body>
+    <h1>Paint Your Own Picture</h1>
+    <p>
+        Set Width
+        <input id="width" type="text" onchange='setWidth(this.value)' />
+        Set Height
+        <input id="height" type="text" onchange='setHeight(this.value)' />
+    </p>
+    <canvas id="canvas1" width="300" height="300" onmousedown="startPaint()" onmouseup="endPaint()"
+        onmousemove="doPaint(event.offsetX, event.offsetY)"></canvas>
+    <p>
+        <input type="color" value="#000" onchange="setColor(this.value)">
+        <input type="range" min="1" max="50" id="sizeInput" value="50" oninput="resizeBrush(this.value)">
+        <output id="sizeOutput">50</output>
+    </p>
+    <p>
+        <input type="button" id="clear" value="Clear Canvas" onclick="clearCanvas()">
+    </p>
+    <script src="paint.js"></script>
+</body>
+
+</html>
