@@ -3,10 +3,11 @@
  * Write a description of WordFrequencies here.
  * 
  * @author Eyvaz Najafli
- * @version 08/28/2022
+ * @version 09/01/2022 
  */
 import edu.duke.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class WordFrequencies {
     private ArrayList<String> myWords;
@@ -15,6 +16,28 @@ public class WordFrequencies {
     public WordFrequencies() {
         myWords = new ArrayList<String>();
         myFreqs = new ArrayList<Integer>();
+    }
+    public void countWords () {
+        FileResource fr = new FileResource();
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        int total = 0;
+        for (String word: fr.words()) {
+            word = word.toLowerCase();
+            // If the word is already in hash map
+            if(map.containsKey(word))
+                map.put(word, map.get(word) + 1);
+            // if not in the hash map yet
+            else
+                map.put(word, 1);
+            // Increase the total number of words
+            total = total + 1;
+        }
+        System.out.println("Total = " + total + "\n");
+        for (String key: map.keySet()){
+            int occurances = map.get(key);
+            if(occurances > 200)
+                System.out.println(occurances + "\t" + key);
+        }
     }
     public void findUnique() {
         myWords.clear();
@@ -37,8 +60,6 @@ public class WordFrequencies {
             }
             
         }
-    }
-    public void findIndexOfMax () {
     }
     public void tester() {
         // relevant parameter initialization
