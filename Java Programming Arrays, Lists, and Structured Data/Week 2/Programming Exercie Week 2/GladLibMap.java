@@ -36,7 +36,7 @@ public class GladLibMap {
     	animalList = readIt(source+"/animal.txt");
     	timeList = readIt(source+"/timeframe.txt");
     	verbList = readIt(source+"/verb.txt");
-    	
+    	// add hashmap code here
     }
     
     private String randomFrom(ArrayList<String> source){
