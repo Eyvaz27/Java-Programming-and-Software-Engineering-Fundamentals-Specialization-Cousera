@@ -20,8 +20,11 @@ public class WordsInFiles {
         for (String word: currFile.words()) {
             if(fileWords.containsKey(word)) {
                 ArrayList<String> files = fileWords.get(word);
-                files.add(fileName);
-                fileWords.replace(word, files);
+                if(!files.contains(fileName))
+                {
+                    files.add(fileName);
+                    fileWords.replace(word, files);
+                }
             }
             else {
                 ArrayList<String> files = new ArrayList<String>();
@@ -62,26 +65,28 @@ public class WordsInFiles {
             for(String file: files)
                 System.out.println(file);
         }
-        else {
+        else 
             System.out.println(word + " is not found in files");
-        }
         System.out.println("\n");
     }
     public void tester() {
         buildWordFileMap();
         int maxWord = maxNumber();
         System.out.println("Max word frequency = " + maxWord);
-        ArrayList<String> words = wordsInNumFiles(maxWord);
+        ArrayList<String> words = wordsInNumFiles(4); // maxWord
+        System.out.println("In total "+words.size()+" words");
         for (String word: words){
-            System.out.println("Analyzing word --> " + word);
-            printFilesIn(word);
+            System.out.println("Analyzing word --> "+word);
+            //printFilesIn(word);
         }
-        System.out.println("\n### Private HashMap Summary ###");
-        for(String key: fileWords.keySet()) {
-            System.out.println("Word --> " + key);
-            for (String file: fileWords.get(key)){
-                System.out.println(file);
-            }
-        }
+        printFilesIn("tree");
+        System.out.println("\nWord in Map processing ended");
+        //System.out.println("\n### Private HashMap Summary ###");
+        //for(String key: fileWords.keySet()) {
+        //    System.out.println("Word --> " + key);
+        //    for (String file: fileWords.get(key)){
+        //        System.out.println(file);
+        //    }
+        //}
     }
 }

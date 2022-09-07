@@ -35,7 +35,7 @@ public class WordFrequencies {
         System.out.println("Total = " + total + "\n");
         for (String key: map.keySet()){
             int occurances = map.get(key);
-            if(occurances > 200)
+            if(occurances > 100)
                 System.out.println(occurances + "\t" + key);
         }
     }
@@ -48,7 +48,7 @@ public class WordFrequencies {
             // convert string to lower case
             word = word.toLowerCase();
             // remove extra punctuation characters
-            word = word.replaceAll("\\p{Punct}","");
+            // word = word.replaceAll("\\p{Punct}","");
             int index = myWords.indexOf(word);
             if(index == -1) {
                 myWords.add(word);

@@ -61,6 +61,6 @@ public class CharactersInPlay {
     public void tester() {
         FileResource fr = new FileResource();
         findAllCharacters(fr);
-        charactersWithNumParts(20, 200);
+        charactersWithNumParts(9, 16);
     }
 }

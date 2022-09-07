@@ -57,6 +57,6 @@ public class CodonCount {
         // CodonCount test = new CodonCount();
         buildCodonMap(0, "None");
         getMostCommonCodon();
-        printCodonCounts(1, 5);
+        printCodonCounts(1, 10000);
     }
 }
