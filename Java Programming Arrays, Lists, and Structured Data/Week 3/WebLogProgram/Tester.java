@@ -21,6 +21,10 @@ public class Tester
         // complete method
         LogAnalyzer test = new LogAnalyzer();
         test.readFile();
+        int uniqueIPs = test.countUniqueIPs();
+        System.out.println("There are "+ uniqueIPs+" IPs");
+        HashMap<String, Integer> counts = test.countVisitsPerIP();
+        System.out.println("Unique Users :\n"+counts);
         test.printAll();
     }
 }
