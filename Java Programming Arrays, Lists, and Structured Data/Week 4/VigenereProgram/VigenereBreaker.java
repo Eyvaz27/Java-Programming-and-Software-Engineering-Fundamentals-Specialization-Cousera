@@ -44,23 +44,16 @@ public class VigenereBreaker {
             dictionary.add(word.toLowerCase());
         return dictionary;
     }
-    public void breakVigenere () {
-        //WRITE YOUR CODE HERE
+    public String breakForLanguage(String encrypted, HashSet<String> dictionary) {
         int maxSimilarity = 0;
         String keyString = "";
         String TargetDecryptedMessage = "";
-        // Select Text File to analyze
-        FileResource fr = new FileResource();
-        // Select Dictionary File as reference
-        FileResource dictionaryFile = new FileResource();
-        String encryptedMessage = fr.asString();
-        HashSet<String> dictionary = readDictionary(dictionaryFile);
         CaesarCracker sampleCracker = new CaesarCracker();
         
-        for (int i=1; i<15; i++) {
-            int[] estimatedKeys = tryKeyLength(encryptedMessage, i, 'e');
+        for (int i=1; i<100; i++) {
+            int[] estimatedKeys = tryKeyLength(encrypted, i, 'e');
             VigenereCipher sampleCipher = new VigenereCipher(estimatedKeys);
-            String decryptedMessage = sampleCipher.decrypt(encryptedMessage);
+            String decryptedMessage = sampleCipher.decrypt(encrypted);
             int currOccuranceCount = 0;
             String[] sampleText = decryptedMessage.split(" ");
             for(String word: sampleText) {
@@ -78,9 +71,17 @@ public class VigenereBreaker {
                 TargetDecryptedMessage = decryptedMessage; 
             }
         }
-        
-        System.out.println("Decryption Keys : "+keyString);
-        System.out.println("Decrypted Message : "+TargetDecryptedMessage);
+        return TargetDecryptedMessage;
+    }
+    public void breakVigenere () {
+        // Select Text File to analyze
+        FileResource fr = new FileResource();
+        // Select Dictionary File as reference
+        FileResource dictionaryFile = new FileResource();
+        String encryptedMessage = fr.asString();
+        HashSet<String> dictionary = readDictionary(dictionaryFile);
+        String decryptedMessage = breakForLanguage(encryptedMessage, dictionary);
+        System.out.println("Decrypted Message : \n"+decryptedMessage);
     }
     
 }

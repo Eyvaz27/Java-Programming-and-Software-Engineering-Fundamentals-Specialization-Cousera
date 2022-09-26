@@ -1,0 +1,38 @@
+public void breakVigenere () {
+        //WRITE YOUR CODE HERE
+        int maxSimilarity = 0;
+        String keyString = "";
+        String TargetDecryptedMessage = "";
+        // Select Text File to analyze
+        FileResource fr = new FileResource();
+        // Select Dictionary File as reference
+        FileResource dictionaryFile = new FileResource();
+        String encryptedMessage = fr.asString();
+        HashSet<String> dictionary = readDictionary(dictionaryFile);
+        CaesarCracker sampleCracker = new CaesarCracker();
+        
+        for (int i=1; i<15; i++) {
+            int[] estimatedKeys = tryKeyLength(encryptedMessage, i, 'e');
+            VigenereCipher sampleCipher = new VigenereCipher(estimatedKeys);
+            String decryptedMessage = sampleCipher.decrypt(encryptedMessage);
+            int currOccuranceCount = 0;
+            String[] sampleText = decryptedMessage.split(" ");
+            for(String word: sampleText) {
+                word = word.replaceAll("\\p{Punct}","");
+                if(word.length()<=1)
+                    continue;
+                word = word.toLowerCase();
+                if(dictionary.contains(word)) 
+                    currOccuranceCount += 1;
+            }
+            // update maxSimilarity with dictionary
+            if (maxSimilarity < currOccuranceCount) {
+                maxSimilarity = currOccuranceCount;
+                keyString = Arrays.toString(estimatedKeys);
+                TargetDecryptedMessage = decryptedMessage; 
+            }
+        }
+        
+        System.out.println("Decryption Keys : "+keyString);
+        System.out.println("Decrypted Message : "+TargetDecryptedMessage);
+    }
