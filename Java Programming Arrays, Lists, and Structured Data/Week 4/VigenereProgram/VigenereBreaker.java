@@ -2,7 +2,7 @@
  * Write a description of VigenereBreaker here.
  * 
  * @author Eyvaz Najafli
- * @version 09/20/2022
+ * @version 09/26/2022
  */
 
 import java.util.*;
@@ -38,7 +38,12 @@ public class VigenereBreaker {
         }
         return key;
     }
-
+    public HashSet<String> readDictionary(FileResource dictFile){
+        HashSet<String> dictionary = new HashSet<String>();
+        for(String word: dictFile.words())
+            dictionary.add(word.toLowerCase());
+        return dictionary;
+    }
     public void breakVigenere () {
         //WRITE YOUR CODE HERE
         int maxSimilarity = 0;
@@ -49,9 +54,7 @@ public class VigenereBreaker {
         // Select Dictionary File as reference
         FileResource dictionaryFile = new FileResource();
         String encryptedMessage = fr.asString();
-        ArrayList<String> dictionary = new ArrayList<String>();
-        for(String word: dictionaryFile.words())
-            dictionary.add(word);
+        HashSet<String> dictionary = readDictionary(dictionaryFile);
         CaesarCracker sampleCracker = new CaesarCracker();
         
         for (int i=1; i<15; i++) {
@@ -64,7 +67,7 @@ public class VigenereBreaker {
                 word = word.replaceAll("\\p{Punct}","");
                 if(word.length()<=1)
                     continue;
-                word = capitalize(word);
+                word = word.toLowerCase();
                 if(dictionary.contains(word)) 
                     currOccuranceCount += 1;
             }
