@@ -89,12 +89,19 @@ public class VigenereBreaker {
         int mostCharIndex = sample.maxIndex(countLetters);
         return alphabet.charAt(mostCharIndex);
     } 
+    public HashMap<String, String> breakForAllLangs(String encrypted, HashMap<String, HashSet<String>> languages) {
+        
+    }
     public void breakVigenere () {
         // Select Text File to analyze
         FileResource fr = new FileResource();
         // Select Dictionary File as reference
         FileResource dictionaryFile = new FileResource();
         String encryptedMessage = fr.asString();
+        // Continue from here to make new directory resource going through
+        // languages and create new dictionaries for each language as
+        // HashMap<String, HashSet<String>>  ==>  <languageName, languageDictionary>
+        DirectoryResource dictionaries = new DirectoryResource();
         HashSet<String> dictionary = readDictionary(dictionaryFile);
         char mostCommonChar = mostCommonCharIn(dictionary);
         String decryptedMessage = breakForLanguage(encryptedMessage, dictionary, mostCommonChar);
