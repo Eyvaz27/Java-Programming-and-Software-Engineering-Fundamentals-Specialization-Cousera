@@ -5,9 +5,10 @@
  * @version 09/26/2022
  */
 
-import java.util.*;
+
 import edu.duke.*;
- 
+import java.util.*;
+
 public class VigenereBreaker {
     
     public String capitalize(String sample){
@@ -44,14 +45,14 @@ public class VigenereBreaker {
             dictionary.add(word.toLowerCase());
         return dictionary;
     }
-    public String breakForLanguage(String encrypted, HashSet<String> dictionary) {
+    public String breakForLanguage(String encrypted, HashSet<String> dictionary, char mostCommonChar) {
         int maxSimilarity = 0;
         String keyString = "";
-        String TargetDecryptedMessage = "";
+        String returnString = "";
         CaesarCracker sampleCracker = new CaesarCracker();
         
         for (int i=1; i<100; i++) {
-            int[] estimatedKeys = tryKeyLength(encrypted, i, 'e');
+            int[] estimatedKeys = tryKeyLength(encrypted, i, mostCommonChar);
             VigenereCipher sampleCipher = new VigenereCipher(estimatedKeys);
             String decryptedMessage = sampleCipher.decrypt(encrypted);
             int currOccuranceCount = 0;
@@ -68,11 +69,26 @@ public class VigenereBreaker {
             if (maxSimilarity < currOccuranceCount) {
                 maxSimilarity = currOccuranceCount;
                 keyString = Arrays.toString(estimatedKeys);
-                TargetDecryptedMessage = decryptedMessage; 
+                returnString = decryptedMessage.substring(0, decryptedMessage.indexOf("\n")); 
+                returnString = keyString + " ### " + returnString;
             }
         }
-        return TargetDecryptedMessage;
+        returnString = Integer.toString(maxSimilarity) + " ### " + returnString;
+        return returnString;
     }
+    public char mostCommonCharIn(HashSet<String> dictionary) {  
+        int[] countLetters = new int[26];
+        String alphabet = "abcdefghijklmnopqrstuvwxyz";
+        CaesarCracker sample = new CaesarCracker();
+        String totalDictionary = "";
+        for (String word: dictionary) {
+            int[] counterSample = sample.countLetters(word);
+            for (int i=0; i<26; i++)
+                countLetters[i] = countLetters[i] + counterSample[i];
+        }
+        int mostCharIndex = sample.maxIndex(countLetters);
+        return alphabet.charAt(mostCharIndex);
+    } 
     public void breakVigenere () {
         // Select Text File to analyze
         FileResource fr = new FileResource();
@@ -80,8 +96,10 @@ public class VigenereBreaker {
         FileResource dictionaryFile = new FileResource();
         String encryptedMessage = fr.asString();
         HashSet<String> dictionary = readDictionary(dictionaryFile);
-        String decryptedMessage = breakForLanguage(encryptedMessage, dictionary);
-        System.out.println("Decrypted Message : \n"+decryptedMessage);
+        char mostCommonChar = mostCommonCharIn(dictionary);
+        String decryptedMessage = breakForLanguage(encryptedMessage, dictionary, mostCommonChar);
+        System.out.println("Decrypted Message : "+"MaxWordCount # Keys # First Line Decryption");
+        System.out.println(decryptedMessage);
     }
     
 }
