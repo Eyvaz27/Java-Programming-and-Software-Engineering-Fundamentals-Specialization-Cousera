@@ -8,7 +8,7 @@
 
 import edu.duke.*;
 import java.util.*;
-
+import java.io.*;
 public class VigenereBreaker {
     
     public String capitalize(String sample){
@@ -39,16 +39,30 @@ public class VigenereBreaker {
         }
         return key;
     }
+    public char mostCommonCharIn(HashSet<String> dictionary) {  
+        int[] countLetters = new int[26];
+        String alphabet = "abcdefghijklmnopqrstuvwxyz";
+        CaesarCracker sample = new CaesarCracker();
+        String totalDictionary = "";
+        for (String word: dictionary) {
+            int[] counterSample = sample.countLetters(word);
+            for (int i=0; i<26; i++)
+                countLetters[i] = countLetters[i] + counterSample[i];
+        }
+        int mostCharIndex = sample.maxIndex(countLetters);
+        return alphabet.charAt(mostCharIndex);
+    } 
     public HashSet<String> readDictionary(FileResource dictFile){
         HashSet<String> dictionary = new HashSet<String>();
         for(String word: dictFile.words())
             dictionary.add(word.toLowerCase());
         return dictionary;
     }
-    public String breakForLanguage(String encrypted, HashSet<String> dictionary, char mostCommonChar) {
+    public String breakForLanguage(String encrypted, HashSet<String> dictionary) {
         int maxSimilarity = 0;
         String keyString = "";
         String returnString = "";
+        char mostCommonChar = mostCommonCharIn(dictionary);
         CaesarCracker sampleCracker = new CaesarCracker();
         
         for (int i=1; i<100; i++) {
@@ -76,37 +90,36 @@ public class VigenereBreaker {
         returnString = Integer.toString(maxSimilarity) + " ### " + returnString;
         return returnString;
     }
-    public char mostCommonCharIn(HashSet<String> dictionary) {  
-        int[] countLetters = new int[26];
-        String alphabet = "abcdefghijklmnopqrstuvwxyz";
-        CaesarCracker sample = new CaesarCracker();
-        String totalDictionary = "";
-        for (String word: dictionary) {
-            int[] counterSample = sample.countLetters(word);
-            for (int i=0; i<26; i++)
-                countLetters[i] = countLetters[i] + counterSample[i];
-        }
-        int mostCharIndex = sample.maxIndex(countLetters);
-        return alphabet.charAt(mostCharIndex);
-    } 
+    
     public HashMap<String, String> breakForAllLangs(String encrypted, HashMap<String, HashSet<String>> languages) {
-        
+        // solve the function to return <languageName, function(breakForLanguage)>
+        HashMap<String, String> result = new HashMap<String, String>();
+        for(String key: languages.keySet()){
+            HashSet<String> currDictionary = languages.get(key);
+            String currLanguageDecryption = breakForLanguage(encrypted, currDictionary);
+            System.out.println(key+" ### "+currLanguageDecryption);
+            result.put(key, currLanguageDecryption);
+        }
+        return result;
     }
     public void breakVigenere () {
         // Select Text File to analyze
         FileResource fr = new FileResource();
-        // Select Dictionary File as reference
-        FileResource dictionaryFile = new FileResource();
         String encryptedMessage = fr.asString();
         // Continue from here to make new directory resource going through
         // languages and create new dictionaries for each language as
         // HashMap<String, HashSet<String>>  ==>  <languageName, languageDictionary>
+        HashMap<String, HashSet<String>> languages = new HashMap<String, HashSet<String>>();
         DirectoryResource dictionaries = new DirectoryResource();
-        HashSet<String> dictionary = readDictionary(dictionaryFile);
-        char mostCommonChar = mostCommonCharIn(dictionary);
-        String decryptedMessage = breakForLanguage(encryptedMessage, dictionary, mostCommonChar);
-        System.out.println("Decrypted Message : "+"MaxWordCount # Keys # First Line Decryption");
-        System.out.println(decryptedMessage);
+        for(File f: dictionaries.selectedFiles()){ 
+            String fileName = f.getName();
+            fileName = fileName.substring(0, fileName.indexOf("."));
+            FileResource tempDictionary = new FileResource(f);
+            HashSet<String> currDictionary = readDictionary(tempDictionary);
+            languages.put(fileName, currDictionary);
+        }
+        System.out.println("Language # MaxWordCount # Keys # First Line Decryption");
+        HashMap<String, String> decryptionResult = breakForAllLangs(encryptedMessage, languages);
     }
     
 }
