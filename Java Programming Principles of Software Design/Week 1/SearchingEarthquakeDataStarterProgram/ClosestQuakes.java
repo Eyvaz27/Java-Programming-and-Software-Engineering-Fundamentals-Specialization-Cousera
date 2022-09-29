@@ -12,7 +12,14 @@ public class ClosestQuakes {
     public ArrayList<QuakeEntry> getClosest(ArrayList<QuakeEntry> quakeData, Location current, int howMany) {
         ArrayList<QuakeEntry> ret = new ArrayList<QuakeEntry>();
         // TO DO
-
+        // you need to continue from here 
+        // add elements to the list as in the case of
+        // insertion sort in order to maintain consistency
+        for(QuakeEntry entry: quakeData){
+            if(ret.size()==howMany){
+            }
+            
+        }
         return ret;
     }
 
