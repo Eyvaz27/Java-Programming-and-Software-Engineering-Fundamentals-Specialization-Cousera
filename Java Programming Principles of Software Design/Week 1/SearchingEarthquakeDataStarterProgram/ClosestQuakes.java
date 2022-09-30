@@ -10,15 +10,24 @@ import java.util.*;
 
 public class ClosestQuakes {
     public ArrayList<QuakeEntry> getClosest(ArrayList<QuakeEntry> quakeData, Location current, int howMany) {
+        ArrayList<Integer> closestIndexes = new ArrayList<Integer>();
         ArrayList<QuakeEntry> ret = new ArrayList<QuakeEntry>();
         // TO DO
         // you need to continue from here 
         // add elements to the list as in the case of
         // insertion sort in order to maintain consistency
-        for(QuakeEntry entry: quakeData){
-            if(ret.size()==howMany){
+        for (int loop=0; loop<howMany; loop++){
+            int minIndex = 0; 
+            for(int k=1; k<quakeData.size(); k++){
+                QuakeEntry currentQuake = quakeData.get(k); 
+                Location currentLoc = currentQuake.getLocation();
+                Location minLocation = quakeData.get(minIndex).getLocation();
+                if(currentLoc.distanceTo(current)<minLocation.distanceTo(current)){
+                    if(!closestIndexes.contains(k))                    
+                        minIndex = k;
+                }   
             }
-            
+            ret.add(quakeData.get(minIndex));
         }
         return ret;
     }
@@ -26,7 +35,7 @@ public class ClosestQuakes {
     public void findClosestQuakes() {
         EarthQuakeParser parser = new EarthQuakeParser();
         //String source = "data/nov20quakedata.atom";
-        String source = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.atom";
+        String source = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.atom";
         ArrayList<QuakeEntry> list  = parser.read(source);
         System.out.println("read data for "+list.size());
 
