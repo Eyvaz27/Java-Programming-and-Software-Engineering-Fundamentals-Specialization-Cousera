@@ -39,9 +39,33 @@ public class EarthQuakeClient {
         for(int i=0; i<quakeData.size(); i++){
             QuakeEntry currQuake = quakeData.get(i);
             double currDepth = currQuake.getDepth();
-            //System.out.println(from.distanceTo(currLocation));
             if(currDepth<maxDepth &&  currDepth>minDepth)
                 answer.add(currQuake);
+        }
+        return answer;
+    }
+    
+    public ArrayList<QuakeEntry> filterByPhrase(ArrayList<QuakeEntry> quakeData,
+    String where, String phrase) {
+        int phraseLength = phrase.length();
+        ArrayList<QuakeEntry> answer = new ArrayList<QuakeEntry>();
+        // TODO
+        for(int i=0; i<quakeData.size(); i++){
+            QuakeEntry currQuake = quakeData.get(i);
+            String currTitle = currQuake.getInfo();
+            int titleLength = currTitle.length();
+            if(where.contentEquals("start")){
+                if(currTitle.startsWith(phrase))
+                    answer.add(currQuake);
+            }
+            else if(where.contentEquals("end")){
+                if(currTitle.endsWith(phrase))
+                    answer.add(currQuake);
+            }
+            else if(where.contentEquals("any")){
+                if(currTitle.indexOf(phrase)!=-1)
+                    answer.add(currQuake);
+            }
         }
         return answer;
     }
@@ -106,6 +130,20 @@ public class EarthQuakeClient {
         for(QuakeEntry entry: deepQuakes)
             System.out.println(entry);
         System.out.println("Found " + deepQuakes.size() + 
+                           " quakes that match that criteria");
+    }
+    
+    public void quakesByPhrase(){
+        EarthQuakeParser parser = new EarthQuakeParser();
+        // String source = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.atom";
+        String source = "data/nov20quakedatasmall.atom";
+        ArrayList<QuakeEntry> list  = parser.read(source);
+        System.out.println("read data for "+list.size()+" quakes");
+        // TODO
+        ArrayList<QuakeEntry> phraseQuakes = filterByPhrase(list, "start", "Explosion");
+        for(QuakeEntry entry: phraseQuakes)
+            System.out.println(entry);
+        System.out.println("Found " + phraseQuakes.size() + 
                            " quakes that match that criteria");
     }
     
