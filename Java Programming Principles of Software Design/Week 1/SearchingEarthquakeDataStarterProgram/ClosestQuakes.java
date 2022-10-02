@@ -9,27 +9,52 @@
 import java.util.*;
 
 public class ClosestQuakes {
-    public ArrayList<QuakeEntry> getClosest(ArrayList<QuakeEntry> quakeData, Location current, int howMany) {
-        ArrayList<Integer> closestIndexes = new ArrayList<Integer>();
-        ArrayList<QuakeEntry> ret = new ArrayList<QuakeEntry>();
+    // need to continue from here and you should update the 
+    // "addQuake" function to work smoothly
+    public ArrayList<QuakeEntry> addQuake(ArrayList<QuakeEntry> quakeData, QuakeEntry newQuake, Location reference, int howMany){
+        int insertionIndex = 0;
+        int elementCount = 0;
+        // Initial Element count check 
+        if(quakeData.size()==0){
+            quakeData.add(newQuake);
+            return quakeData;
+        }
+        Location newLocation = newQuake.getLocation();
+        for(int index=0; index<quakeData.size(); index++){
+            QuakeEntry currentQuake = quakeData.get(index); 
+            Location currentLoc = currentQuake.getLocation();
+            if(currentLoc.distanceTo(reference)>newLocation.distanceTo(reference)){
+                    insertionIndex = index;
+                    break;
+            }  
+        }
+        if(quakeData.size()<howMany){
+            elementCount = quakeData.size();
+            quakeData.add(quakeData.get(elementCount-1));
+        }
+        for(int index=elementCount-1; index>insertionIndex; index--){
+            QuakeEntry previousQuake = quakeData.get(index-1);
+            quakeData.set(index, previousQuake);
+        }
+        quakeData.set(insertionIndex, newQuake);
+        return quakeData;
+    }
+    public ArrayList<QuakeEntry> getClosest(ArrayList<QuakeEntry> quakeData, Location reference, int howMany) {
+        ArrayList<QuakeEntry> quakesClosest = new ArrayList<QuakeEntry>();
         // TO DO
         // you need to continue from here 
         // add elements to the list as in the case of
         // insertion sort in order to maintain consistency
-        for (int loop=0; loop<howMany; loop++){
-            int minIndex = 0; 
-            for(int k=1; k<quakeData.size(); k++){
-                QuakeEntry currentQuake = quakeData.get(k); 
-                Location currentLoc = currentQuake.getLocation();
-                Location minLocation = quakeData.get(minIndex).getLocation();
-                if(currentLoc.distanceTo(current)<minLocation.distanceTo(current)){
-                    if(!closestIndexes.contains(k))                    
-                        minIndex = k;
-                }   
-            }
-            ret.add(quakeData.get(minIndex));
+        int elementCount = howMany;
+        if(quakeData.size()<howMany){
+            elementCount = quakeData.size();
         }
-        return ret;
+        for(int k=1; k<quakeData.size(); k++){
+            QuakeEntry currentQuake = quakeData.get(k); 
+            quakesClosest = addQuake(quakesClosest, currentQuake, 
+                                     reference, elementCount);
+        }
+        return quakesClosest;
     }
 
     public void findClosestQuakes() {
