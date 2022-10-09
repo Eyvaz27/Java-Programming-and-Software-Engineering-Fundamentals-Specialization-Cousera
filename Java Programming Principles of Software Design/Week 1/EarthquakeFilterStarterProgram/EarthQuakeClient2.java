@@ -39,7 +39,22 @@ public class EarthQuakeClient2 {
         ArrayList<QuakeEntry> japanQuakes  = filter(tokyoQuakes, phraseJapan); 
         quakePrint(japanQuakes);
     }
-
+    
+    public void testMatchAllFilter(){
+        EarthQuakeParser parser = new EarthQuakeParser(); 
+        //String source = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.atom";
+        String source = "data/nov20quakedatasmall.atom";
+        ArrayList<QuakeEntry> quakeData  = parser.read(source);         
+        System.out.println("read data for "+quakeData.size()+" quakes");
+        Filter maf = new MatchAllFilter();
+        Filter 
+        maf.addFilter(new MagnitudeFilter(0.0, 2.0));
+        maf.addFilter(new DepthFilter(-100000.0, -10000.0));
+        maf.addFilter(new PhraseFilter("any", "a"));
+        ArrayList<QuakeEntry> filteredQuakes  = filter(quakeData, maf); 
+        quakePrint(filteredQuakes);
+    }
+    
     public void createCSV() {
         EarthQuakeParser parser = new EarthQuakeParser();
         //String source = "../data/nov20quakedata.atom";
