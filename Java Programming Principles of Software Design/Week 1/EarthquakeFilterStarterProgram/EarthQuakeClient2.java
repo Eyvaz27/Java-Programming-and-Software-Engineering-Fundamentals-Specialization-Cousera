@@ -21,12 +21,14 @@ public class EarthQuakeClient2 {
         EarthQuakeParser parser = new EarthQuakeParser(); 
         //String source = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.atom";
         String source = "data/nov20quakedatasmall.atom";
-        ArrayList<QuakeEntry> list  = parser.read(source);         
-        System.out.println("read data for "+list.size()+" quakes");
+        ArrayList<QuakeEntry> quakeData  = parser.read(source);         
+        System.out.println("read data for "+quakeData.size()+" quakes");
 
-        Filter f = new MinMagFilter(4.0); 
-        ArrayList<QuakeEntry> m7  = filter(list, f); 
-        for (QuakeEntry qe: m7) { 
+        Filter magFilter = new MagnitudeFilter(4.0, 5.0);
+        Filter depthFilter = new DepthFilter(-35000.0, -12000.0);
+        ArrayList<QuakeEntry> highMagQuakes  = filter(quakeData, magFilter); 
+        ArrayList<QuakeEntry> depthQuakes = filter(highMagQuakes, depthFilter);
+        for (QuakeEntry qe: depthQuakes) { 
             System.out.println(qe);
         } 
     }
