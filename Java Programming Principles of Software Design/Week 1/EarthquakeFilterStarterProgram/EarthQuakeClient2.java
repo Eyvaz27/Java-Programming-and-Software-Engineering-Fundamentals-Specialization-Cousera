@@ -28,13 +28,13 @@ public class EarthQuakeClient2 {
         ArrayList<QuakeEntry> quakeData  = parser.read(source);         
         System.out.println("read data for "+quakeData.size()+" quakes");
 
-        // Filter magFilter = new MagnitudeFilter(4.0, 5.0);
-        // Filter depthFilter = new DepthFilter(-35000.0, -12000.0);
+        // MagnitudeFilter magFilter = new MagnitudeFilter(4.0, 5.0);
+        // DepthFilter depthFilter = new DepthFilter(-35000.0, -12000.0);
         // ArrayList<QuakeEntry> highMagQuakes  = filter(quakeData, magFilter); 
         // ArrayList<QuakeEntry> deepQuakes = filter(highMagQuakes, depthFilter);
         Location Tokyo = new Location(35.42, 139.43);
-        Filter distFilter = new DistanceFilter(Tokyo, 10000000);
-        Filter phraseJapan = new PhraseFilter("end", "Japan");
+        DistanceFilter distFilter = new DistanceFilter(Tokyo, 10000000);
+        PhraseFilter phraseJapan = new PhraseFilter("end", "Japan");
         ArrayList<QuakeEntry> tokyoQuakes  = filter(quakeData, distFilter); 
         ArrayList<QuakeEntry> japanQuakes  = filter(tokyoQuakes, phraseJapan); 
         quakePrint(japanQuakes);
@@ -46,8 +46,7 @@ public class EarthQuakeClient2 {
         String source = "data/nov20quakedatasmall.atom";
         ArrayList<QuakeEntry> quakeData  = parser.read(source);         
         System.out.println("read data for "+quakeData.size()+" quakes");
-        Filter maf = new MatchAllFilter();
-        Filter 
+        MatchAllFilter maf = new MatchAllFilter();
         maf.addFilter(new MagnitudeFilter(0.0, 2.0));
         maf.addFilter(new DepthFilter(-100000.0, -10000.0));
         maf.addFilter(new PhraseFilter("any", "a"));
