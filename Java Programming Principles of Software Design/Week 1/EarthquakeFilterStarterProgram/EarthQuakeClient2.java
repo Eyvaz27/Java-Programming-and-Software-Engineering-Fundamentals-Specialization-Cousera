@@ -5,7 +5,11 @@ public class EarthQuakeClient2 {
     public EarthQuakeClient2() {
         // TODO Auto-generated constructor stub
     }
-
+    public void quakePrint(ArrayList<QuakeEntry> quakeData){
+        for (QuakeEntry qe: quakeData) { 
+            System.out.println(qe);
+        } 
+    }
     public ArrayList<QuakeEntry> filter(ArrayList<QuakeEntry> quakeData, Filter f) { 
         ArrayList<QuakeEntry> answer = new ArrayList<QuakeEntry>();
         for(QuakeEntry qe : quakeData) { 
@@ -24,13 +28,16 @@ public class EarthQuakeClient2 {
         ArrayList<QuakeEntry> quakeData  = parser.read(source);         
         System.out.println("read data for "+quakeData.size()+" quakes");
 
-        Filter magFilter = new MagnitudeFilter(4.0, 5.0);
-        Filter depthFilter = new DepthFilter(-35000.0, -12000.0);
-        ArrayList<QuakeEntry> highMagQuakes  = filter(quakeData, magFilter); 
-        ArrayList<QuakeEntry> depthQuakes = filter(highMagQuakes, depthFilter);
-        for (QuakeEntry qe: depthQuakes) { 
-            System.out.println(qe);
-        } 
+        // Filter magFilter = new MagnitudeFilter(4.0, 5.0);
+        // Filter depthFilter = new DepthFilter(-35000.0, -12000.0);
+        // ArrayList<QuakeEntry> highMagQuakes  = filter(quakeData, magFilter); 
+        // ArrayList<QuakeEntry> deepQuakes = filter(highMagQuakes, depthFilter);
+        Location Tokyo = new Location(35.42, 139.43);
+        Filter distFilter = new DistanceFilter(Tokyo, 10000000);
+        Filter phraseJapan = new PhraseFilter("end", "Japan");
+        ArrayList<QuakeEntry> tokyoQuakes  = filter(quakeData, distFilter); 
+        ArrayList<QuakeEntry> japanQuakes  = filter(tokyoQuakes, phraseJapan); 
+        quakePrint(japanQuakes);
     }
 
     public void createCSV() {
