@@ -33,8 +33,8 @@ public class EarthQuakeClient2 {
         // ArrayList<QuakeEntry> highMagQuakes  = filter(quakeData, magFilter); 
         // ArrayList<QuakeEntry> deepQuakes = filter(highMagQuakes, depthFilter);
         Location Tokyo = new Location(35.42, 139.43);
-        DistanceFilter distFilter = new DistanceFilter(Tokyo, 10000000);
-        PhraseFilter phraseJapan = new PhraseFilter("end", "Japan");
+        DistanceFilter distFilter = new DistanceFilter(Tokyo, 10000000, "Distance Filter");
+        PhraseFilter phraseJapan = new PhraseFilter("end", "Japan", "Phrase Filter");
         ArrayList<QuakeEntry> tokyoQuakes  = filter(quakeData, distFilter); 
         ArrayList<QuakeEntry> japanQuakes  = filter(tokyoQuakes, phraseJapan); 
         quakePrint(japanQuakes);
@@ -46,12 +46,15 @@ public class EarthQuakeClient2 {
         String source = "data/nov20quakedatasmall.atom";
         ArrayList<QuakeEntry> quakeData  = parser.read(source);         
         System.out.println("read data for "+quakeData.size()+" quakes");
+        //
+        Location Tulsa = new Location(36.1314, -95.9372);
         MatchAllFilter maf = new MatchAllFilter();
-        maf.addFilter(new MagnitudeFilter(0.0, 2.0));
-        maf.addFilter(new DepthFilter(-100000.0, -10000.0));
-        maf.addFilter(new PhraseFilter("any", "a"));
+        maf.addFilter(new MagnitudeFilter(0.0, 3.0, "Magnitude"));
+        maf.addFilter(new DistanceFilter(Tulsa, 10000000, "Distance"));
+        maf.addFilter(new PhraseFilter("any", "Ca", "Phrase"));
         ArrayList<QuakeEntry> filteredQuakes  = filter(quakeData, maf); 
         quakePrint(filteredQuakes);
+        System.out.println("Filters used are :"+maf.getName());
     }
     
     public void createCSV() {

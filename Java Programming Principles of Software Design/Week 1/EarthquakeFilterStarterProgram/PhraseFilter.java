@@ -6,14 +6,16 @@
  * @version 10/08/2022
  */
 public class PhraseFilter implements Filter {
+    public String filterName;
     private String searchPosition;
     private String searchPhrase;
-    PhraseFilter (String pos, String phrase) {
+    PhraseFilter (String pos, String phrase, String name) {
         searchPosition = pos;
         searchPhrase = phrase;
+        filterName = name;
     }
 
-public boolean satisfies (QuakeEntry qe){
+    public boolean satisfies (QuakeEntry qe){
         String currTitle = qe.getInfo();
         if(searchPosition.contentEquals("start") && 
            currTitle.startsWith(searchPhrase)){
@@ -29,4 +31,9 @@ public boolean satisfies (QuakeEntry qe){
         }
         return false;
     }
+    
+    public String getName(){
+        return filterName;
+    }
 }
+

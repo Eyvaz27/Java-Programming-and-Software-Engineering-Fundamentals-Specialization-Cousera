@@ -10,12 +10,15 @@ import java.util.*;
 
 public class MatchAllFilter implements Filter{
     private ArrayList<Filter> quakeFilters;
+    
     MatchAllFilter(){
         quakeFilters = new ArrayList<Filter>();
     }
+    
     public void addFilter(Filter newFilter){
         quakeFilters.add(newFilter);
     }
+    
     public boolean satisfies(QuakeEntry sampleQuake){
         for(Filter aFilter: quakeFilters){
             if(!aFilter.satisfies((sampleQuake))){
@@ -23,5 +26,13 @@ public class MatchAllFilter implements Filter{
             }
         }
         return true;
+    }
+    
+    public String getName(){
+        String FiltersNames = "";
+        for (Filter aFilter: quakeFilters){
+            FiltersNames = FiltersNames + " " + aFilter.getName();
+        }
+        return FiltersNames;
     }
 }
